@@ -62,9 +62,11 @@ export default function Notifications() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center justify-between px-2">
-        <h2 className="text-xl font-bold text-gray-900">Notifications {unreadCount > 0 && <span className="text-brand-600">({unreadCount})</span>}</h2>
+        <h2 className="text-[24px] font-bold text-[#181820]">
+          Notifications {unreadCount > 0 && <span className="text-brand-600">({unreadCount})</span>}
+        </h2>
         {unreadCount > 0 && (
-          <button onClick={markAllAsRead} className="text-sm font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1">
+          <button onClick={markAllAsRead} className="text-[13px] font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1.5 smooth-transition bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-full">
             <CheckCircle2 className="w-4 h-4" /> Mark all as read
           </button>
         )}
@@ -72,50 +74,53 @@ export default function Notifications() {
 
       <div className="space-y-4">
         {notifications.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+          <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 p-12 text-center">
             <BellIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">You're all caught up!</p>
+            <p className="text-gray-500 font-medium text-[15px]">You're all caught up!</p>
           </div>
         ) : (
           notifications.map(notif => (
             <div 
               key={notif.id} 
-              className={`bg-white rounded-2xl shadow-sm border p-4 flex items-start gap-4 transition-colors ${notif.is_read ? 'border-gray-100' : 'border-brand-200 bg-brand-50/30'}`}
+              className={`group bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] border p-5 flex items-start gap-4 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 ${notif.is_read ? 'border-gray-100' : 'border-brand-200 bg-brand-50/20'}`}
               onClick={() => !notif.is_read && markAsRead(notif.id)}
             >
               <div className="mt-1">
-                {notif.type === 'post_like' && <div className="p-2 bg-red-100 text-red-600 rounded-full"><Heart className="w-5 h-5 fill-current" /></div>}
-                {notif.type === 'post_comment' && <div className="p-2 bg-blue-100 text-blue-600 rounded-full"><MessageCircle className="w-5 h-5 fill-current" /></div>}
-                {notif.type === 'friend_request' && <div className="p-2 bg-purple-100 text-purple-600 rounded-full"><UserPlus className="w-5 h-5" /></div>}
-                {notif.type === 'friend_accepted' && <div className="p-2 bg-green-100 text-green-600 rounded-full"><Check className="w-5 h-5" /></div>}
+                {notif.type === 'post_like' && <div className="p-2.5 bg-red-50 text-red-500 rounded-full shadow-sm"><Heart className="w-5 h-5 fill-current" /></div>}
+                {notif.type === 'post_comment' && <div className="p-2.5 bg-blue-50 text-blue-500 rounded-full shadow-sm"><MessageCircle className="w-5 h-5 fill-current" /></div>}
+                {notif.type === 'friend_request' && <div className="p-2.5 bg-brand-50 text-brand-600 rounded-full shadow-sm"><UserPlus className="w-5 h-5" /></div>}
+                {notif.type === 'friend_accepted' && <div className="p-2.5 bg-green-50 text-green-500 rounded-full shadow-sm"><Check className="w-5 h-5" /></div>}
               </div>
               
               <div className="flex-1">
-                <p className="text-gray-800">
-                  <Link to={`/profile/${notif.actor?.username}`} className="font-semibold text-gray-900 hover:text-brand-600 hover:underline">
+                <p className="text-[#181820] text-[15px] leading-relaxed">
+                  <Link to={`/profile/${notif.actor?.username}`} className="font-bold hover:text-brand-600 smooth-transition">
                     {notif.actor?.full_name}
                   </Link>{' '}
-                  {notif.type === 'post_like' && 'liked your post.'}
-                  {notif.type === 'post_comment' && 'commented on your post.'}
-                  {notif.type === 'friend_request' && 'sent you a friend request.'}
-                  {notif.type === 'friend_accepted' && 'accepted your friend request.'}
+                  <span className="text-gray-600">
+                    {notif.type === 'post_like' && 'liked your post.'}
+                    {notif.type === 'post_comment' && 'commented on your post.'}
+                    {notif.type === 'friend_request' && 'sent you a friend request.'}
+                    {notif.type === 'friend_accepted' && 'accepted your friend request.'}
+                  </span>
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-[12px] font-medium text-gray-400 mt-1">
                   {formatDistanceToNow(new Date(notif.created_at), { addSuffix: true })}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col items-center gap-3">
                 {!notif.is_read && (
                   <button 
                     onClick={(e) => { e.stopPropagation(); markAsRead(notif.id); }}
-                    className="w-2.5 h-2.5 bg-brand-600 rounded-full self-end mt-2"
+                    className="w-2.5 h-2.5 bg-brand-500 rounded-full mt-2 hover:scale-125 smooth-transition shadow-[0_0_8px_rgba(98,54,214,0.5)]"
                     title="Mark as read"
                   />
                 )}
                 <button 
                   onClick={(e) => { e.stopPropagation(); deleteNotification(notif.id); }}
-                  className="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                  className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 -mt-1"
+                  title="Delete notification"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

@@ -108,116 +108,117 @@ export default function Settings() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-2">
       <div className="px-2">
-        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
-        <p className="text-gray-500">Manage your profile and privacy preferences.</p>
+        <h2 className="text-[24px] font-bold text-[#181820]">Settings</h2>
+        <p className="text-[15px] font-medium text-gray-500">Manage your profile and privacy preferences.</p>
       </div>
 
       {message.text && (
-        <div className={`p-4 rounded-xl font-medium ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+        <div className={`p-4 rounded-2xl font-medium text-[14px] flex items-center gap-2 ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
+          <div className={`w-2 h-2 rounded-full ${message.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
           {message.text}
         </div>
       )}
 
       <form onSubmit={handleSave} className="space-y-8">
         {/* Profile Info */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
-          <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-100 pb-2">Profile Information</h3>
+        <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 p-8 space-y-8">
+          <h3 className="text-[18px] font-bold text-[#181820] border-b border-gray-50 pb-4">Profile Information</h3>
           
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row gap-6">
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row gap-8">
               {/* Avatar Upload */}
               <div className="flex-shrink-0 flex flex-col items-center gap-3">
-                <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden relative group">
+                <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 overflow-hidden relative group shadow-sm">
                   {avatarFile ? (
                     <img src={URL.createObjectURL(avatarFile)} className="w-full h-full object-cover" alt="Preview" />
                   ) : profile?.avatar_url ? (
                     <img src={profile.avatar_url} className="w-full h-full object-cover" alt="Avatar" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-gray-400 bg-gray-200 uppercase">{formData.full_name[0] || 'U'}</div>
+                    <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-white uppercase">{formData.full_name[0] || 'U'}</div>
                   )}
-                  <label className="absolute inset-0 bg-black/50 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                  <label className="absolute inset-0 bg-black/50 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity backdrop-blur-sm">
                     <ImageIcon className="w-6 h-6 mb-1" />
-                    <span className="text-xs font-medium">Change</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider">Change</span>
                     <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files && setAvatarFile(e.target.files[0])} />
                   </label>
                 </div>
-                <span className="text-sm font-medium text-gray-500">Avatar</span>
+                <span className="text-[13px] font-semibold text-gray-500">Avatar</span>
               </div>
 
               {/* Cover Upload */}
               <div className="flex-1 flex flex-col items-center md:items-start gap-3">
-                <div className="w-full h-24 rounded-xl bg-gray-100 overflow-hidden relative group">
+                <div className="w-full h-28 rounded-2xl bg-gray-100 overflow-hidden relative group shadow-sm border border-gray-50">
                   {coverFile ? (
                     <img src={URL.createObjectURL(coverFile)} className="w-full h-full object-cover" alt="Preview" />
                   ) : profile?.cover_url ? (
                     <img src={profile.cover_url} className="w-full h-full object-cover" alt="Cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gradient-to-r from-gray-200 to-gray-300">No cover image</div>
+                    <div className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-400 bg-[#F1F1F6]">No cover image</div>
                   )}
-                  <label className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
-                    <ImageIcon className="w-6 h-6 mr-2" />
-                    <span className="text-sm font-medium">Change Cover</span>
+                  <label className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity backdrop-blur-sm">
+                    <ImageIcon className="w-5 h-5 mr-2" />
+                    <span className="text-[13px] font-bold">Change Cover</span>
                     <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files && setCoverFile(e.target.files[0])} />
                   </label>
                 </div>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} className="block w-full rounded-xl border-gray-300 bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-2" />
+            <div className="grid md:grid-cols-2 gap-5">
+              <div className="space-y-1.5">
+                <label className="block text-[13px] font-semibold text-[#181820] ml-1">Full Name</label>
+                <input type="text" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} className="input-field py-3 text-[14px]" />
               </div>
               
-              <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" value={profile?.username || ''} disabled className="block w-full rounded-xl border-gray-200 bg-gray-100 text-gray-500 sm:text-sm px-4 py-2 cursor-not-allowed" />
+              <div className="space-y-1.5">
+                <label className="block text-[13px] font-semibold text-[#181820] ml-1">Username</label>
+                <input type="text" value={profile?.username || ''} disabled className="input-field py-3 text-[14px] opacity-60 cursor-not-allowed" />
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">Bio</label>
-              <textarea value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} rows={3} className="block w-full rounded-xl border-gray-300 bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-2 resize-none" />
+            <div className="space-y-1.5">
+              <label className="block text-[13px] font-semibold text-[#181820] ml-1">Bio</label>
+              <textarea value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} rows={3} className="w-full bg-[#F1F1F6] border-2 border-transparent text-[#181820] rounded-2xl px-5 py-3.5 transition-all duration-200 focus:bg-white focus:border-brand-500 focus:shadow-[0_0_0_4px_rgba(98,54,214,0.1)] outline-none placeholder:text-gray-400 resize-none text-[14px]" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">Location</label>
-                <input type="text" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} className="block w-full rounded-xl border-gray-300 bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-2" placeholder="e.g. San Francisco, CA" />
+            <div className="grid md:grid-cols-2 gap-5">
+              <div className="space-y-1.5">
+                <label className="block text-[13px] font-semibold text-[#181820] ml-1">Location</label>
+                <input type="text" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} className="input-field py-3 text-[14px]" placeholder="e.g. San Francisco, CA" />
               </div>
               
-              <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">Website</label>
-                <input type="url" value={formData.website} onChange={e => setFormData({...formData, website: e.target.value})} className="block w-full rounded-xl border-gray-300 bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-4 py-2" placeholder="https://example.com" />
+              <div className="space-y-1.5">
+                <label className="block text-[13px] font-semibold text-[#181820] ml-1">Website</label>
+                <input type="url" value={formData.website} onChange={e => setFormData({...formData, website: e.target.value})} className="input-field py-3 text-[14px]" placeholder="https://example.com" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Privacy Settings */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
-          <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-100 pb-2">Privacy Settings</h3>
+        <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 p-8 space-y-8">
+          <h3 className="text-[18px] font-bold text-[#181820] border-b border-gray-50 pb-4">Privacy Settings</h3>
           
-          <div className="space-y-6">
-            <div className="flex items-start justify-between">
+          <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Profile Visibility</h4>
-                <p className="text-sm text-gray-500">Who can see your profile details and posts?</p>
+                <h4 className="text-[15px] font-bold text-[#181820]">Profile Visibility</h4>
+                <p className="text-[13px] font-medium text-gray-500 mt-0.5">Who can see your profile details and posts?</p>
               </div>
-              <select value={formData.profile_visibility} onChange={e => setFormData({...formData, profile_visibility: e.target.value})} className="rounded-xl border-gray-300 bg-gray-50 text-sm font-medium text-gray-700 focus:ring-brand-500 focus:border-brand-500 py-2 pl-3 pr-10">
+              <select value={formData.profile_visibility} onChange={e => setFormData({...formData, profile_visibility: e.target.value})} className="w-full sm:w-auto appearance-none bg-[#F1F1F6] border-2 border-transparent rounded-full px-5 py-2.5 text-[14px] font-semibold text-[#181820] focus:bg-white focus:border-brand-500 focus:shadow-[0_0_0_4px_rgba(98,54,214,0.1)] outline-none cursor-pointer smooth-transition">
                 <option value="public">Public</option>
                 <option value="friends">Friends Only</option>
               </select>
             </div>
 
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Default Post Visibility</h4>
-                <p className="text-sm text-gray-500">Who can see your posts by default?</p>
+                <h4 className="text-[15px] font-bold text-[#181820]">Default Post Visibility</h4>
+                <p className="text-[13px] font-medium text-gray-500 mt-0.5">Who can see your posts by default?</p>
               </div>
-              <select value={formData.post_default_visibility} onChange={e => setFormData({...formData, post_default_visibility: e.target.value})} className="rounded-xl border-gray-300 bg-gray-50 text-sm font-medium text-gray-700 focus:ring-brand-500 focus:border-brand-500 py-2 pl-3 pr-10">
+              <select value={formData.post_default_visibility} onChange={e => setFormData({...formData, post_default_visibility: e.target.value})} className="w-full sm:w-auto appearance-none bg-[#F1F1F6] border-2 border-transparent rounded-full px-5 py-2.5 text-[14px] font-semibold text-[#181820] focus:bg-white focus:border-brand-500 focus:shadow-[0_0_0_4px_rgba(98,54,214,0.1)] outline-none cursor-pointer smooth-transition">
                 <option value="public">Public</option>
                 <option value="friends">Friends Only</option>
                 <option value="private">Only Me</option>
@@ -230,7 +231,7 @@ export default function Settings() {
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 bg-brand-600 text-white rounded-xl font-medium shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:opacity-50 transition-colors flex items-center gap-2"
+            className="btn-primary w-auto"
           >
             {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
             Save Changes

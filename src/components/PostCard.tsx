@@ -92,22 +92,22 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-4 relative">
+    <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 p-5 space-y-4 relative transition-all duration-300 hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)] animate-in fade-in slide-in-from-bottom-2">
       {/* Header */}
       <div className="flex justify-between items-start">
         <Link to={`/profile/${post.profiles?.username || post.user_id}`} className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-brand-50 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+          <div className="w-11 h-11 bg-gradient-to-tr from-brand-400 to-brand-600 rounded-full flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
             {post.profiles?.avatar_url ? (
               <img src={post.profiles.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
-              <div className="text-brand-600 font-bold uppercase">{post.profiles?.full_name?.[0] || 'U'}</div>
+              <div className="text-white font-bold text-sm uppercase">{post.profiles?.full_name?.[0] || 'U'}</div>
             )}
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 group-hover:text-brand-600 transition-colors">
+            <h3 className="font-semibold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition leading-tight">
               {post.profiles?.full_name || 'User'}
             </h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-[12px] text-gray-500 font-medium">
               {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })} • {post.visibility}
             </p>
           </div>
@@ -117,19 +117,19 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
           <div className="relative">
             <button 
               onClick={() => setShowMenu(!showMenu)}
-              className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-50"
+              className="p-2 text-gray-400 hover:text-gray-800 rounded-full hover:bg-gray-50 smooth-transition"
             >
               <MoreHorizontal className="w-5 h-5" />
             </button>
             {showMenu && (
-              <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden z-10">
+              <div className="absolute right-0 mt-1 w-36 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden z-10 animate-in zoom-in-95 duration-200">
                 <button 
                   onClick={handleDelete}
                   disabled={isDeleting}
-                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                  className="w-full px-4 py-2.5 text-left text-[13px] font-semibold text-red-600 hover:bg-red-50 flex items-center gap-2 smooth-transition"
                 >
                   <Trash2 className="w-4 h-4" />
-                  {isDeleting ? 'Deleting...' : 'Delete'}
+                  {isDeleting ? 'Deleting...' : 'Delete Post'}
                 </button>
               </div>
             )}
@@ -138,33 +138,33 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
       </div>
 
       {/* Content */}
-      <div className="text-gray-800 whitespace-pre-wrap">{post.content}</div>
+      <div className="text-[#181820] text-[15px] leading-relaxed whitespace-pre-wrap">{post.content}</div>
       
       {/* Media */}
       {post.media_urls && post.media_urls.length > 0 && (
-        <div className="rounded-xl overflow-hidden bg-gray-100 max-h-96">
-          <img src={post.media_urls[0]} alt="Post media" className="w-full h-full object-contain" />
+        <div className="rounded-2xl overflow-hidden bg-gray-50 max-h-[500px] border border-gray-100 flex justify-center shadow-sm">
+          <img src={post.media_urls[0]} alt="Post media" className="w-full h-full object-cover sm:object-contain" />
         </div>
       )}
 
       {/* Action Stats */}
-      <div className="flex items-center gap-4 py-2 text-sm text-gray-500">
+      <div className="flex items-center gap-4 py-1.5 text-[13px] font-medium text-gray-500 border-b border-gray-50">
         <span>{likeCount} {likeCount === 1 ? 'like' : 'likes'}</span>
         <span>{commentCount} {commentCount === 1 ? 'comment' : 'comments'}</span>
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 border-y border-gray-100 py-1">
+      <div className="flex gap-2 pt-1">
         <button 
           onClick={handleLike}
-          className={`flex-1 py-2 flex justify-center items-center gap-2 rounded-lg transition-colors font-medium text-sm ${liked ? 'text-red-500 hover:bg-red-50' : 'text-gray-600 hover:bg-gray-50'}`}
+          className={`flex-1 py-2.5 flex justify-center items-center gap-2 rounded-xl transition-all duration-200 font-semibold text-[13px] hover:scale-[1.02] active:scale-[0.98] ${liked ? 'text-red-500 bg-red-50' : 'text-gray-600 hover:bg-gray-50'}`}
         >
-          <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
+          <Heart className={`w-5 h-5 ${liked ? 'fill-current scale-110 smooth-transition' : ''}`} />
           Like
         </button>
         <button 
           onClick={toggleComments}
-          className="flex-1 py-2 flex justify-center items-center gap-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-medium text-sm"
+          className={`flex-1 py-2.5 flex justify-center items-center gap-2 rounded-xl transition-all duration-200 font-semibold text-[13px] hover:scale-[1.02] active:scale-[0.98] ${showComments ? 'text-brand-600 bg-brand-50' : 'text-gray-600 hover:bg-gray-50'}`}
         >
           <MessageCircle className="w-5 h-5" />
           Comment
@@ -173,22 +173,22 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
 
       {/* Comments Section */}
       {showComments && (
-        <div className="space-y-4 pt-2">
+        <div className="space-y-4 pt-3 border-t border-gray-50 animate-in fade-in slide-in-from-top-2 duration-300">
           {/* Comment list */}
           {loadingComments ? (
-            <div className="flex justify-center py-4"><Loader2 className="w-6 h-6 animate-spin text-brand-600" /></div>
+            <div className="flex justify-center py-6"><Loader2 className="w-6 h-6 animate-spin text-brand-600" /></div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {comments.map(comment => (
-                <div key={comment.id} className="flex gap-2">
-                  <div className="w-8 h-8 bg-brand-50 rounded-full flex-shrink-0 overflow-hidden">
+                <div key={comment.id} className="flex gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-tr from-brand-400 to-brand-600 rounded-full flex-shrink-0 overflow-hidden shadow-sm">
                     {comment.profiles?.avatar_url && (
                       <img src={comment.profiles.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
                     )}
                   </div>
-                  <div className="bg-gray-50 rounded-2xl rounded-tl-none px-4 py-2 max-w-[85%]">
-                    <p className="text-sm font-semibold text-gray-900">{comment.profiles?.full_name}</p>
-                    <p className="text-sm text-gray-800">{comment.content}</p>
+                  <div className="bg-[#F8F8FB] rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-[85%]">
+                    <p className="text-[13px] font-bold text-[#181820] mb-0.5">{comment.profiles?.full_name}</p>
+                    <p className="text-[14px] text-gray-700 leading-snug">{comment.content}</p>
                   </div>
                 </div>
               ))}
@@ -196,8 +196,8 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
           )}
           
           {/* New Comment Input */}
-          <form onSubmit={submitComment} className="flex items-center gap-2 mt-2">
-            <div className="w-8 h-8 bg-brand-50 rounded-full flex-shrink-0 overflow-hidden">
+          <form onSubmit={submitComment} className="flex items-center gap-3 pt-2">
+            <div className="w-8 h-8 bg-gradient-to-tr from-brand-400 to-brand-600 rounded-full flex-shrink-0 overflow-hidden shadow-sm">
               {user?.user_metadata?.avatar_url && (
                 <img src={user.user_metadata.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
               )}
@@ -207,15 +207,15 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Write a comment..." 
-              className="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 rounded-full px-4 py-2 text-sm"
+              className="flex-1 input-field py-2.5 text-[14px]"
               disabled={submittingComment}
             />
             <button 
               type="submit" 
               disabled={!newComment.trim() || submittingComment}
-              className="p-2 text-brand-600 hover:bg-brand-50 rounded-full disabled:opacity-50"
+              className="p-2.5 bg-brand-600 text-white hover:bg-brand-700 rounded-full disabled:opacity-50 disabled:bg-gray-200 disabled:text-gray-400 smooth-transition shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4 ml-0.5" />
             </button>
           </form>
         </div>

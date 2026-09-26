@@ -1,24 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #f5f3ff;
-  --color-brand-100: #ede9fe;
-  --color-brand-200: #ddd6fe;
-  --color-brand-300: #c4b5fd;
-  --color-brand-400: #a78bfa;
-  --color-brand-500: #8b5cf6;
-  --color-brand-600: #7c3aed;
-  --color-brand-700: #6d28d9;
-  --color-brand-800: #5b21b6;
-  --color-brand-900: #4c1d95;
-  --color-brand-950: #2e1065;
+  --color-brand-50: #f4f2ff;
+  --color-brand-100: #e8e4ff;
+  --color-brand-200: #d4ccff;
+  --color-brand-300: #b5a4ff;
+  --color-brand-400: #9373ff;
+  --color-brand-500: #7c3aed;
+  --color-brand-600: #6236d6;
+  --color-brand-700: #5425ba;
+  --color-brand-800: #451f96;
+  --color-brand-900: #391a7a;
   
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 @layer base {
   body {
-    @apply antialiased text-gray-900 bg-gray-50 font-sans;
+    @apply antialiased text-[#181820] bg-[#F8F8FB] font-sans;
+  }
+}
+
+/* Custom Utilities for Premium Look */
+@layer utilities {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+  }
+  .input-field {
+    @apply w-full bg-[#F1F1F6] border-2 border-transparent text-[#181820] rounded-full px-5 py-3.5 transition-all duration-200 focus:bg-white focus:border-brand-500 focus:shadow-[0_0_0_4px_rgba(98,54,214,0.1)] outline-none placeholder:text-gray-400;
+  }
+  .btn-primary {
+    @apply w-full bg-brand-600 hover:bg-brand-700 text-white rounded-full font-semibold px-6 py-3.5 transition-all duration-200 shadow-[0_4px_14px_rgba(98,54,214,0.3)] hover:shadow-[0_6px_20px_rgba(98,54,214,0.4)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none flex items-center justify-center gap-2;
+  }
+  .btn-secondary {
+    @apply w-full bg-white hover:bg-gray-50 text-[#181820] rounded-full font-semibold px-6 py-3.5 transition-all duration-200 border border-gray-200 shadow-sm flex items-center justify-center gap-2;
+  }
+  .btn-dark {
+    @apply w-full bg-[#282A36] hover:bg-[#1E1F24] text-white rounded-full font-semibold px-6 py-3.5 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2;
+  }
+  .smooth-transition {
+    @apply transition-all duration-300 ease-out;
   }
 }

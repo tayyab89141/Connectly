@@ -72,8 +72,9 @@ export default function Home() {
             <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
           </div>
         ) : posts.length === 0 ? (
-          <div className="text-center p-8 bg-white rounded-2xl border border-gray-100 shadow-sm">
-            <p className="text-gray-500">No posts yet. Be the first to post!</p>
+          <div className="text-center p-12 bg-white rounded-3xl border border-gray-100 shadow-[0_2px_12px_rgb(0,0,0,0.03)] animate-in fade-in">
+            <h3 className="text-xl font-bold text-[#181820] mb-2">Welcome to your feed!</h3>
+            <p className="text-[15px] font-medium text-gray-500">No posts yet. Be the first to post or find some friends!</p>
           </div>
         ) : (
           posts.map(post => (

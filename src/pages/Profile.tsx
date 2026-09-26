@@ -127,60 +127,65 @@ export default function Profile() {
   }
 
   if (!profile) {
-    return <div className="text-center p-12 text-gray-500">User not found</div>;
+    return (
+      <div className="max-w-3xl mx-auto mt-8 bg-white rounded-3xl p-12 text-center shadow-sm">
+        <h2 className="text-2xl font-bold text-[#181820]">User not found</h2>
+        <p className="text-gray-500 mt-2">The profile you're looking for doesn't exist.</p>
+      </div>
+    );
   }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
-        <div className="h-48 bg-gradient-to-r from-brand-400 to-indigo-500 relative">
+      <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 overflow-hidden relative">
+        <div className="h-48 bg-gradient-to-r from-brand-400 to-brand-600 relative">
           {profile.cover_url && (
-            <img src={profile.cover_url} alt="Cover" className="w-full h-full object-cover" />
+            <img src={profile.cover_url} alt="Cover" className="w-full h-full object-cover opacity-90" />
           )}
         </div>
         
-        <div className="px-6 pb-6 relative">
+        <div className="px-6 pb-8 relative">
           <div className="flex justify-between items-start">
-            <div className="-mt-16 p-1 bg-white rounded-full inline-block relative">
-              <div className="w-32 h-32 bg-brand-50 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-sm">
+            <div className="-mt-16 p-1.5 bg-white rounded-full inline-block relative shadow-sm">
+              <div className="w-32 h-32 bg-gradient-to-tr from-brand-400 to-brand-600 rounded-full flex items-center justify-center overflow-hidden shadow-inner">
                 {profile.avatar_url ? (
                   <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-4xl text-brand-600 font-bold uppercase">{profile.full_name?.[0] || 'U'}</span>
+                  <span className="text-4xl text-white font-bold uppercase">{profile.full_name?.[0] || 'U'}</span>
                 )}
               </div>
             </div>
             
-            <div className="mt-4 flex gap-2">
+            <div className="mt-5 flex gap-2">
               {isOwner ? (
-                <button className="px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                <button className="btn-secondary py-2 px-5 text-[13px]">
                   <Edit2 className="w-4 h-4" /> Edit Profile
                 </button>
               ) : (
                 <>
                   {friendStatus === 'none' && (
-                    <button onClick={() => handleFriendAction('send')} className="px-4 py-2 bg-brand-600 text-white rounded-full text-sm font-medium hover:bg-brand-700 flex items-center gap-2">
+                    <button onClick={() => handleFriendAction('send')} className="btn-primary py-2 px-5 text-[13px]">
                       <UserPlus className="w-4 h-4" /> Add Friend
                     </button>
                   )}
                   {friendStatus === 'pending_sent' && (
-                    <button onClick={() => handleFriendAction('cancel')} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-300 flex items-center gap-2">
+                    <button onClick={() => handleFriendAction('cancel')} className="btn-secondary py-2 px-5 text-[13px] text-gray-600">
                       <Clock className="w-4 h-4" /> Request Sent
                     </button>
                   )}
                   {friendStatus === 'pending_received' && (
                     <>
-                      <button onClick={() => handleFriendAction('accept')} className="px-4 py-2 bg-brand-600 text-white rounded-full text-sm font-medium hover:bg-brand-700 flex items-center gap-2">
+                      <button onClick={() => handleFriendAction('accept')} className="btn-primary py-2 px-5 text-[13px]">
                         <Check className="w-4 h-4" /> Accept
                       </button>
-                      <button onClick={() => handleFriendAction('reject')} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-300">
+                      <button onClick={() => handleFriendAction('reject')} className="btn-secondary py-2 px-5 text-[13px]">
                         Reject
                       </button>
                     </>
                   )}
                   {friendStatus === 'accepted' && (
-                    <button onClick={() => handleFriendAction('remove')} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 flex items-center gap-2">
+                    <button onClick={() => handleFriendAction('remove')} className="btn-secondary py-2 px-5 text-[13px]">
                       <Check className="w-4 h-4 text-brand-600" /> Friends
                     </button>
                   )}
@@ -189,22 +194,22 @@ export default function Profile() {
             </div>
           </div>
           
-          <div className="mt-2 space-y-3">
+          <div className="mt-3 space-y-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{profile.full_name}</h2>
-              <p className="text-gray-500">@{profile.username}</p>
+              <h2 className="text-[24px] font-bold text-[#181820] leading-tight">{profile.full_name}</h2>
+              <p className="text-[15px] font-medium text-gray-500">@{profile.username}</p>
             </div>
             
-            {profile.bio && <p className="text-gray-800">{profile.bio}</p>}
+            {profile.bio && <p className="text-[15px] text-[#181820] leading-relaxed max-w-2xl">{profile.bio}</p>}
             
-            <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+            <div className="flex flex-wrap gap-4 text-[13px] font-medium text-gray-500">
               {profile.location && (
-                <div className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {profile.location}</div>
+                <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {profile.location}</div>
               )}
               {profile.website && (
-                <div className="flex items-center gap-1"><LinkIcon className="w-4 h-4" /> <a href={profile.website} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">{profile.website.replace(/^https?:\/\//, '')}</a></div>
+                <div className="flex items-center gap-1.5"><LinkIcon className="w-4 h-4" /> <a href={profile.website} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">{profile.website.replace(/^https?:\/\//, '')}</a></div>
               )}
-              <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Joined {format(new Date(profile.created_at), 'MMMM yyyy')}</div>
+              <div className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> Joined {format(new Date(profile.created_at), 'MMMM yyyy')}</div>
             </div>
           </div>
         </div>
@@ -212,9 +217,9 @@ export default function Profile() {
 
       {/* Posts */}
       <div className="space-y-4">
-        <h3 className="font-semibold text-gray-900 text-lg px-2">Posts</h3>
+        <h3 className="font-bold text-[#181820] text-lg px-2">Recent Posts</h3>
         {posts.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center text-gray-500">
+          <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] border border-gray-100 p-12 text-center text-gray-500 font-medium">
             No posts to show.
           </div>
         ) : (
