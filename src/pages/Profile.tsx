@@ -20,6 +20,7 @@ export default function Profile() {
   // Friendship state
   const [friendStatus, setFriendStatus] = useState<'none' | 'pending_sent' | 'pending_received' | 'accepted'>('none');
   const [friendshipId, setFriendshipId] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState(false);
   
   const isOwner = user?.id === profile?.id;
 
@@ -95,7 +96,8 @@ export default function Profile() {
   };
 
   const handleFriendAction = async (action: 'send' | 'accept' | 'reject' | 'remove' | 'cancel') => {
-    if (!user || !profile) return;
+    if (!user || !profile || actionLoading) return;
+    setActionLoading(true);
     
     // Sort IDs to ensure user1_id < user2_id
     const u1 = user.id < profile.id ? user.id : profile.id;
@@ -120,6 +122,7 @@ export default function Profile() {
       setFriendStatus('none');
       setFriendshipId(null);
     }
+    setActionLoading(false);
   };
 
   if (loading) {
@@ -165,27 +168,27 @@ export default function Profile() {
               ) : (
                 <>
                   {friendStatus === 'none' && (
-                    <button onClick={() => handleFriendAction('send')} className="btn-primary py-2 px-5 text-[13px]">
+                    <button onClick={() => handleFriendAction('send')} disabled={actionLoading} className="btn-primary py-2 px-5 text-[13px] disabled:opacity-50">
                       <UserPlus className="w-4 h-4" /> Add Friend
                     </button>
                   )}
                   {friendStatus === 'pending_sent' && (
-                    <button onClick={() => handleFriendAction('cancel')} className="btn-secondary py-2 px-5 text-[13px] text-gray-600">
+                    <button onClick={() => handleFriendAction('cancel')} disabled={actionLoading} className="btn-secondary py-2 px-5 text-[13px] text-gray-600 disabled:opacity-50">
                       <Clock className="w-4 h-4" /> Request Sent
                     </button>
                   )}
                   {friendStatus === 'pending_received' && (
                     <>
-                      <button onClick={() => handleFriendAction('accept')} className="btn-primary py-2 px-5 text-[13px]">
+                      <button onClick={() => handleFriendAction('accept')} disabled={actionLoading} className="btn-primary py-2 px-5 text-[13px] disabled:opacity-50">
                         <Check className="w-4 h-4" /> Accept
                       </button>
-                      <button onClick={() => handleFriendAction('reject')} className="btn-secondary py-2 px-5 text-[13px]">
+                      <button onClick={() => handleFriendAction('reject')} disabled={actionLoading} className="btn-secondary py-2 px-5 text-[13px] disabled:opacity-50">
                         Reject
                       </button>
                     </>
                   )}
                   {friendStatus === 'accepted' && (
-                    <button onClick={() => handleFriendAction('remove')} className="btn-secondary py-2 px-5 text-[13px]">
+                    <button onClick={() => handleFriendAction('remove')} disabled={actionLoading} className="btn-secondary py-2 px-5 text-[13px] disabled:opacity-50">
                       <Check className="w-4 h-4 text-brand-600" /> Friends
                     </button>
                   )}
@@ -195,12 +198,12 @@ export default function Profile() {
           </div>
           
           <div className="mt-3 space-y-4">
-            <div>
-              <h2 className="text-[24px] font-bold text-[#181820] leading-tight">{profile.full_name}</h2>
-              <p className="text-[15px] font-medium text-gray-500">@{profile.username}</p>
+            <div className="min-w-0">
+              <h2 className="text-[24px] font-bold text-[#181820] leading-tight truncate">{profile.full_name}</h2>
+              <p className="text-[15px] font-medium text-gray-500 truncate">@{profile.username}</p>
             </div>
             
-            {profile.bio && <p className="text-[15px] text-[#181820] leading-relaxed max-w-2xl">{profile.bio}</p>}
+            {profile.bio && <p className="text-[15px] text-[#181820] leading-relaxed max-w-2xl break-words whitespace-pre-wrap">{profile.bio}</p>}
             
             <div className="flex flex-wrap gap-4 text-[13px] font-medium text-gray-500">
               {profile.location && (

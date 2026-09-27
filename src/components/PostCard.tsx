@@ -103,8 +103,8 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
               <div className="text-white font-bold text-sm uppercase">{post.profiles?.full_name?.[0] || 'U'}</div>
             )}
           </div>
-          <div>
-            <h3 className="font-semibold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition leading-tight">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition leading-tight truncate">
               {post.profiles?.full_name || 'User'}
             </h3>
             <p className="text-[12px] text-gray-500 font-medium">
@@ -138,7 +138,7 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
       </div>
 
       {/* Content */}
-      <div className="text-[#181820] text-[15px] leading-relaxed whitespace-pre-wrap">{post.content}</div>
+      <div className="text-[#181820] text-[15px] leading-relaxed whitespace-pre-wrap break-words">{post.content}</div>
       
       {/* Media */}
       {post.media_urls && post.media_urls.length > 0 && (
@@ -187,8 +187,8 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
                     )}
                   </div>
                   <div className="bg-[#F8F8FB] rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-[85%]">
-                    <p className="text-[13px] font-bold text-[#181820] mb-0.5">{comment.profiles?.full_name}</p>
-                    <p className="text-[14px] text-gray-700 leading-snug">{comment.content}</p>
+                    <p className="text-[13px] font-bold text-[#181820] mb-0.5 truncate">{comment.profiles?.full_name}</p>
+                    <p className="text-[14px] text-gray-700 leading-snug break-words whitespace-pre-wrap">{comment.content}</p>
                   </div>
                 </div>
               ))}

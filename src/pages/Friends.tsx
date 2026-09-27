@@ -18,6 +18,7 @@ export default function Friends() {
   const { user } = useAuth();
   const [items, setItems] = useState<FriendItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
 
   const fetchFriends = async () => {
     if (!user) return;
@@ -56,12 +57,15 @@ export default function Friends() {
   }, [user]);
 
   const handleAction = async (id: string, action: 'accept' | 'reject' | 'remove' | 'cancel') => {
+    if (actionLoading) return;
+    setActionLoading(true);
     if (action === 'accept') {
       await supabase.from('friendships').update({ status: 'accepted', action_user_id: user?.id }).eq('id', id);
     } else {
       await supabase.from('friendships').delete().eq('id', id);
     }
     fetchFriends();
+    setActionLoading(false);
   };
 
   if (loading) {
@@ -90,16 +94,16 @@ export default function Friends() {
                       <span className="text-white font-bold">{req.user.full_name?.[0]}</span>
                     )}
                   </div>
-                  <div>
-                    <p className="font-bold text-[#181820] group-hover:text-brand-600 smooth-transition">{req.user.full_name}</p>
-                    <p className="text-[13px] text-gray-500 font-medium">wants to be friends</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-[#181820] group-hover:text-brand-600 smooth-transition truncate">{req.user.full_name}</p>
+                    <p className="text-[13px] text-gray-500 font-medium truncate">wants to be friends</p>
                   </div>
                 </Link>
                 <div className="flex gap-2">
-                  <button onClick={() => handleAction(req.friendshipId, 'accept')} className="p-2.5 bg-brand-50 text-brand-600 rounded-full hover:bg-brand-600 hover:text-white smooth-transition shadow-sm">
+                  <button onClick={() => handleAction(req.friendshipId, 'accept')} disabled={actionLoading} className="p-2.5 bg-brand-50 text-brand-600 rounded-full hover:bg-brand-600 hover:text-white smooth-transition shadow-sm disabled:opacity-50">
                     <UserCheck className="w-5 h-5" />
                   </button>
-                  <button onClick={() => handleAction(req.friendshipId, 'reject')} className="p-2.5 bg-gray-50 text-gray-500 rounded-full hover:bg-red-50 hover:text-red-500 smooth-transition shadow-sm">
+                  <button onClick={() => handleAction(req.friendshipId, 'reject')} disabled={actionLoading} className="p-2.5 bg-gray-50 text-gray-500 rounded-full hover:bg-red-50 hover:text-red-500 smooth-transition shadow-sm disabled:opacity-50">
                     <UserX className="w-5 h-5" />
                   </button>
                 </div>
@@ -116,12 +120,12 @@ export default function Friends() {
                       <span className="text-gray-500 font-bold">{req.user.full_name?.[0]}</span>
                     )}
                   </div>
-                  <div>
-                    <p className="font-bold text-[#181820] group-hover:text-brand-600 smooth-transition">{req.user.full_name}</p>
-                    <p className="text-[13px] text-gray-500 font-medium flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Request sent</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-[#181820] group-hover:text-brand-600 smooth-transition truncate">{req.user.full_name}</p>
+                    <p className="text-[13px] text-gray-500 font-medium flex items-center gap-1 truncate"><Clock className="w-3.5 h-3.5 shrink-0" /> Request sent</p>
                   </div>
                 </Link>
-                <button onClick={() => handleAction(req.friendshipId, 'cancel')} className="text-[13px] font-semibold text-gray-500 hover:text-red-500 hover:bg-red-50 px-4 py-2 bg-gray-50 rounded-full smooth-transition">
+                <button onClick={() => handleAction(req.friendshipId, 'cancel')} disabled={actionLoading} className="text-[13px] shrink-0 font-semibold text-gray-500 hover:text-red-500 hover:bg-red-50 px-4 py-2 bg-gray-50 rounded-full smooth-transition disabled:opacity-50">
                   Cancel
                 </button>
               </div>
@@ -154,12 +158,12 @@ export default function Friends() {
                       <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg uppercase">{friend.user.full_name?.[0]}</div>
                     )}
                   </div>
-                  <div>
-                    <p className="font-bold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition">{friend.user.full_name}</p>
-                    <p className="text-[13px] text-gray-500 font-medium">@{friend.user.username}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition truncate">{friend.user.full_name}</p>
+                    <p className="text-[13px] text-gray-500 font-medium truncate">@{friend.user.username}</p>
                   </div>
                 </Link>
-                <button onClick={() => { if(window.confirm('Remove friend?')) handleAction(friend.friendshipId, 'remove') }} className="text-gray-400 hover:text-red-500 p-2.5 rounded-full hover:bg-red-50 smooth-transition" title="Remove Friend">
+                <button onClick={() => { if(window.confirm('Remove friend?')) handleAction(friend.friendshipId, 'remove') }} disabled={actionLoading} className="text-gray-400 hover:text-red-500 p-2.5 rounded-full hover:bg-red-50 smooth-transition disabled:opacity-50" title="Remove Friend">
                   <UserX className="w-5 h-5" />
                 </button>
               </div>

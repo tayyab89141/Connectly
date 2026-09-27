@@ -62,7 +62,7 @@ export default function NotificationDropdown() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 md:w-96 glass-card rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 mt-2 w-80 md:w-96 max-w-[calc(100vw-2rem)] glass-card rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="p-4 border-b border-gray-50 flex justify-between items-center bg-white/50">
             <h3 className="font-semibold text-[#181820]">Notifications</h3>
             {unreadCount > 0 && (
@@ -111,8 +111,8 @@ export default function NotificationDropdown() {
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <p className="text-[13px] text-[#181820] leading-snug">
-                          <span className="font-semibold">{notification.actor?.full_name || notification.actor?.username}</span>
+                        <p className="text-[13px] text-[#181820] leading-snug break-words">
+                          <span className="font-semibold break-all">{notification.actor?.full_name || notification.actor?.username}</span>
                           {' '}
                           {notification.type === 'post_like' && 'liked your post'}
                           {notification.type === 'post_comment' && 'commented on your post'}

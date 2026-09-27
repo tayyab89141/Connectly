@@ -73,11 +73,11 @@ export default function Search() {
                 <User className="w-6 h-6 text-white" />
               )}
             </div>
-            <div>
-              <h3 className="font-bold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-[#181820] text-[15px] group-hover:text-brand-600 smooth-transition truncate">
                 {profile.full_name || 'User'}
               </h3>
-              <p className="text-[13px] font-medium text-gray-500">@{profile.username}</p>
+              <p className="text-[13px] font-medium text-gray-500 truncate">@{profile.username}</p>
             </div>
           </Link>
         ))}
